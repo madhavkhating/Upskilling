@@ -1,1 +1,76 @@
+MariaDB-  
+MariaDB is a community-developed, commercially supported fork/branch of the MySQL relational database management system (RDBMS). It was created in 2009 by some of the original developers of MySQL, led by Michael "Monty" Widenius, following concerns about the acquisition of MySQL by the Oracle Corporation.
+
+MariaDB Installation on RHEL9:
+
+To install MariaDB on Red Hat Enterprise Linux 9 (RHEL 9), you can use the official AppStream repositories which provide MariaDB as an RPM package or a modular stream. A full MariaDB database installation requires both the mariadb and mariadb-client groups of software to be installed.
+
+Step 1: Prerequisites and System Preparation
+Before beginning, ensure your system has an active Red Hat subscription and that you have root or sudo access.
+	1. Update existing packages: Log into your server and refresh the repositories to ensure all system software is current. 
+		○ sudo dnf update
+		○ 
+		
+		○ 
+	2. Verify repository availability: You can confirm MariaDB is available in the default AppStream repositories by searching for the package. 
+		○ sudo dnf search mariadb-server
+		
+		
+		
+		
+Note: You cannot install MariaDB and MySQL on the same host due to conflicting RPM packages.
+
+Step 2: Install MariaDB Server
+RHEL 9 provides different versions of MariaDB. Version 10.5 is the initial Application Stream version.
+	• To install MariaDB 10.5: 
+		○ sudo dnf install mariadb-server -y
+
+
+
+
+Step 3: Start and Enable the Service
+After the installation is complete, the MariaDB daemon does not start automatically.
+	1. Start the service: 
+		○ sudo systemctl start mariadb
+		
+	2. Enable auto-start on boot: 
+		○ sudo systemctl enable mariadb
+		
+	3. Verify the status: Ensure the service is active and running. 
+		○ sudo systemctl status mariadb
+		
+		
+
+
+Step 4: Secure the Installation
+Default MariaDB settings are often considered weak for production environments. Use the built-in security script to harden the instance.
+	• Run the security script: sudo mysql_secure_installation
+	• Follow the prompts to: 
+		○ Set a strong root password.
+		○ Remove anonymous users to prevent unauthorized access.
+		○ Disallow remote root login to force connections via localhost or specific servers.
+		○ Remove the test database, which is only intended for experimental use.
+		○ Reload privilege tables to save all changes.
+
+
+
+
+Step 5: Verify and Connect
+	1. Log in to the shell: Authenticate using the root password you just configured. 
+		○ sudo mysql -u root -p
+		
+		○ 
+	2. Check the installed version: Run the following SQL command to confirm the version details. 
+		○ SELECT VERSION();
+	3. List databases: To ensure the system is functional, you can view existing databases. 
+		○ SHOW DATABASES;
+		○ 
+Post-Installation (Optional)
+	• Firewall configuration: If you need to allow remote connections, ensure port 3306 is open in your firewall.
+	• 
+	
+	• 
+	• 
+	• Network Access: To allow remote access, edit the [mysqld] section in /etc/my.cnf.d/mariadb-server.cnf to update the bind-address.
+	• 
 
